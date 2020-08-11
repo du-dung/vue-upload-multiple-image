@@ -1,5 +1,5 @@
 <template>
-  <div 
+  <div
     style="outline: none;"
     @drag="preventEvent"
     @dragstart="preventEvent"
@@ -159,6 +159,10 @@ export default {
       type: Number,
       default: 5
     },
+    maxSize: {
+      type: Number,
+      default: 1048576
+    },
     idUpload: {
       type: String,
       default: 'image-upload'
@@ -226,6 +230,9 @@ export default {
       this.isDragover = true
     },
     createImage (file) {
+      if(!this.isValidSizeOfImage(file)) {
+        return
+      }
       let reader = new FileReader()
       let formData = new FormData()
       formData.append('file', file)
@@ -348,7 +355,15 @@ export default {
       } else {
         return true
       }
-    }
+    },
+    isValidSizeOfImage(file) {
+      if(file.size > this.maxSize) {
+        this.$emit('size-exceeded', file.size)
+        return false
+      } else {
+        return true
+      }
+    },
   },
   watch: {
     dataImages: {

@@ -6,6 +6,7 @@
       @edit-image="editImage"
       @data-change="dataChange"
       @limit-exceeded="limitExceeded"
+      @size-exceeded="sizeExceeded"
       ></vue-upload-multiple-image>
   </div>
 </template>
@@ -46,6 +47,9 @@ export default {
     },
     limitExceeded(amount){
       console.log(amount)
+    },
+    sizeExceeded(filesize){
+      console.log(filesize)
     }
   }
 }
